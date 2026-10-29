@@ -1,0 +1,75 @@
+#ifndef APP_CONFIG_H
+#define APP_CONFIG_H
+
+/* UTF-8 for OLED/Web. Serial output uses APP_DEVELOPER_SERIAL (ASCII). */
+#define APP_DEVELOPER_NAME "肖肃"
+#define APP_DEVELOPER_SERIAL "XiaoSu"
+#define APP_STUDENT_ID "202440700102"
+#define APP_SAMPLE_MS 2000U
+#define APP_DEFAULT_THRESHOLD_CENTI 2600
+
+/* Board silk labels KEY1=PF8, KEY2=PF7. KEY0=PF9, KEY3=PF6. */
+#define APP_START_KEY_MASK 0x02U
+#define APP_STOP_KEY_MASK  0x04U
+#define APP_KEY_DEBOUNCE_MS 20U
+
+/* ESP8266-01S with AT firmware on UART4, 2.4 GHz WiFi. */
+/* 1: PC10 TX / PC11 RX. 0: PA0 TX / PA1 RX. Match the actual wiring. */
+#define WIFI_UART4_USE_PC10_PC11 0
+/* Fill these before flashing. */
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+#define WIFI_SERVER_IP "YOUR_PC_LAN_IP"
+#define WIFI_SERVER_PORT 5107U
+#define WIFI_BAUD_RATE 115200U
+#define CONSOLE_BAUD_RATE 115200U
+#define APP_WATCHDOG_ENABLED 1
+
+#ifndef APP_BOARD_ID
+#define APP_BOARD_ID 1U
+#endif
+#if APP_BOARD_ID < 1 || APP_BOARD_ID > 3
+#error APP_BOARD_ID must be 1, 2, or 3
+#endif
+#define APP_COLLECTOR_ID 1U
+#define APP_REMOTE_TIMEOUT_MS 8000U
+#define APP_CAN_LIVE_TIMEOUT_MS 1000U
+#define APP_CAN_SEND_MS 1000U
+#define APP_DISPLAY_REFRESH_MS 250U
+#define APP_I2C_LOCK_TIMEOUT_MS 100U
+#define APP_LIGHT_GPIO GPIOA
+#define APP_LIGHT_PIN GPIO_PIN_6
+#define APP_LIGHT_ADC_CHANNEL 6U
+#define APP_CO2_GPIO GPIOA
+#define APP_CO2_PIN GPIO_PIN_7
+#define APP_CO2_ADC_CHANNEL 7U
+#define APP_HCHO_GPIO GPIOA
+#define APP_HCHO_PIN GPIO_PIN_4
+#define APP_HCHO_ADC_CHANNEL 4U
+#define APP_CO2_MIN_PPM 400U
+#define APP_CO2_MAX_PPM 2000U
+#define APP_HCHO_MAX_CENTI 100U
+#define WIFI_ENABLE_GPIO GPIOF
+#define WIFI_ENABLE_PIN GPIO_PIN_14
+#define APP_LIGHT_DARK_ADC 4095U
+#define APP_LIGHT_BRIGHT_ADC 0U
+#define APP_LED0_GPIO GPIOE
+#define APP_LED0_PIN GPIO_PIN_3
+#define APP_LED1_GPIO GPIOE
+#define APP_LED1_PIN GPIO_PIN_4
+#define APP_LED2_GPIO GPIOG
+#define APP_LED2_PIN GPIO_PIN_9
+#define APP_LED_ACTIVE_LOW 1
+
+/* CAN1 at 500 kbit/s on PA11/PA12 with an external 3.3 V transceiver. */
+#define APP_CAN_PRESCALER 7U
+#define APP_CAN_TIME_SEG1 5U
+#define APP_CAN_TIME_SEG2 6U
+#define APP_CAN_SJW 1U
+#define APP_CAN_DATA_ID 0x321U
+#define APP_CAN_META_ID 0x322U
+#define APP_CAN_PAIR_TIMEOUT_MS 100U
+
+/* APP_BOARD_ID selects the binary image. All boards use the same wiring. */
+
+#endif

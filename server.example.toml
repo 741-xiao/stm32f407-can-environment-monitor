@@ -1,0 +1,10 @@
+[mysql]
+host = "127.0.0.1"
+port = 3306
+user = "root"
+password = "YOUR_DB_PASSWORD"
+database = "stm32_lab5"
+
+[light]
+dark_adc = 4095
+bright_adc = 0

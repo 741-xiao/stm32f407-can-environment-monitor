@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>STM32F407 三板上位机</title>
+  <link rel="stylesheet" href="/dashboard.css">
+  <script src="/dashboard.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <p class="eyebrow">STM32F407 · SHT30 · 光敏 · CO2 · 甲醛 · WiFi/MySQL</p>
+      <h1>三块开发板环境监测</h1>
+      <p>开发者：<span id="developer">肖肃</span>　学号：<span id="student">202440700102</span></p>
+    </div>
+    <span id="connection" role="status">正在连接服务器…</span>
+  </header>
+
+  <section class="boards" aria-label="三块开发板实时状态">
+    <article class="board board1">
+      <h2>板 1 <span>采集主机</span><em id="board1-state">未连接</em></h2>
+      <div class="readings">
+        <div>温度<strong><span id="board1-temperature">--</span><i>°C</i></strong></div>
+        <div>湿度<strong><span id="board1-humidity">--</span><i>%RH</i></strong></div>
+        <div>亮度<strong><span id="board1-light">--</span><i>%</i></strong></div>
+        <div>CO2<strong><span id="board1-co2">--</span><i>ppm</i></strong></div>
+        <div>甲醛<strong><span id="board1-hcho">--</span><i>mg/m³</i></strong></div>
+      </div>
+      <p id="board1-sharing" class="share">共享：--</p>
+      <small id="board1-time">暂无采集数据</small>
+    </article>
+    <article class="board board2">
+      <h2>板 2 <span>远端显示</span><em id="board2-state">未连接</em></h2>
+      <div class="readings">
+        <div>温度<strong><span id="board2-temperature">--</span><i>°C</i></strong></div>
+        <div>湿度<strong><span id="board2-humidity">--</span><i>%RH</i></strong></div>
+        <div>亮度<strong><span id="board2-light">--</span><i>%</i></strong></div>
+        <div>CO2<strong><span id="board2-co2">--</span><i>ppm</i></strong></div>
+        <div>甲醛<strong><span id="board2-hcho">--</span><i>mg/m³</i></strong></div>
+      </div>
+      <p id="board2-sharing" class="share">OLED / 呼吸灯：--</p>
+      <small id="board2-time">暂无采集数据</small>
+    </article>
+    <article class="board board3">
+      <h2>板 3 <span>远端显示</span><em id="board3-state">未连接</em></h2>
+      <div class="readings">
+        <div>温度<strong><span id="board3-temperature">--</span><i>°C</i></strong></div>
+        <div>湿度<strong><span id="board3-humidity">--</span><i>%RH</i></strong></div>
+        <div>亮度<strong><span id="board3-light">--</span><i>%</i></strong></div>
+        <div>CO2<strong><span id="board3-co2">--</span><i>ppm</i></strong></div>
+        <div>甲醛<strong><span id="board3-hcho">--</span><i>mg/m³</i></strong></div>
+      </div>
+      <p id="board3-sharing" class="share">OLED / 呼吸灯：--</p>
+      <small id="board3-time">暂无采集数据</small>
+    </article>
+  </section>
+
+  <div class="toolbar">
+    <label>开发板 <select id="board-filter"><option value="">三块板</option><option value="1">板 1</option><option value="2">板 2</option><option value="3">板 3</option></select></label>
+    <label>数据源 <select id="source"><option value="live">实时数据</option><option value="history">MySQL 历史</option></select></label>
+    <span class="legend"><i class="dot blue"></i>板 1 <i class="dot orange"></i>板 2 <i class="dot green"></i>板 3</span>
+    <span id="storage" role="status">等待数据库状态…</span>
+  </div>
+
+  <section class="charts" aria-label="五项环境指标图表">
+    <article class="chart wide"><h2>温度趋势 <small>折线 · °C</small></h2><canvas id="temperature-chart" aria-label="三块板温度折线图"></canvas></article>
+    <article class="chart"><h2>湿度变化 <small>面积 · %RH</small></h2><canvas id="humidity-chart" aria-label="三块板湿度面积图"></canvas></article>
+    <article class="chart"><h2>相对亮度 <small>柱状 · %</small></h2><canvas id="light-chart" aria-label="三块板相对亮度柱状图"></canvas></article>
+    <article class="chart"><h2>CO2 浓度 <small>阶梯散点 · ppm</small></h2><canvas id="co2-chart" aria-label="三块板 CO2 阶梯散点图"></canvas></article>
+    <article class="chart"><h2>甲醛浓度 <small>棒棒糖 · mg/m³</small></h2><canvas id="hcho-chart" aria-label="三块板甲醛棒棒糖图"></canvas></article>
+  </section>
+
+  <section class="table-card">
+    <div class="table-head"><h2>采集明细 <small id="sample-count">0 条</small></h2><p>采集时间是开发板按 PC 时基换算；接收时间是 PC 实际收到数据的时刻。</p></div>
+    <div class="table-scroll"><table>
+      <thead><tr><th>PC 序号</th><th>板号</th><th>采集时间</th><th>PC 接收时间</th><th>温度 °C</th><th>湿度 %RH</th><th>光敏 ADC</th><th>亮度 %</th><th>CO2 ppm</th><th>甲醛 mg/m³</th><th>共享</th><th>传感器状态</th></tr></thead>
+      <tbody id="rows"><tr><td colspan="12">等待三块开发板发送数据……</td></tr></tbody>
+    </table></div>
+    <nav class="pagination" aria-label="采集明细分页">
+      <span id="page-range">每页 40 条 · 共 0 条</span>
+      <div class="page-controls">
+        <button id="first-page" type="button" disabled>首页</button>
+        <button id="previous-page" type="button" disabled>上一页</button>
+        <span id="page-status" role="status">第 0 / 0 页</span>
+        <button id="next-page" type="button" disabled>下一页</button>
+        <button id="last-page" type="button" disabled>末页</button>
+      </div>
+    </nav>
+  </section>
+
+  <section class="notes">
+    <h2>按键与指示灯说明</h2>
+    <p><b>板 1 KEY1：</b>开启数据共享，板 2、板 3 OLED 动态显示板 1 的温湿度、光敏、CO2、甲醛，并启动呼吸灯。<b>KEY2：</b>关闭板 2、板 3 的全部显示信息和 LED，PC 端 MySQL 采集不中断。</p>
+    <p>板间优先使用 CAN 500 kbit/s（0x321 数据帧、0x322 元数据帧）；CAN 超时 1 秒后使用 WiFi 数据兜底，远端 WiFi 数据有效期为 8 秒。</p>
+  </section>
+</main>
+</body>
+</html>
